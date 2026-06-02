@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doxxing Zentrale - GERMAN DOXXING Server</title>
+    <meta name="description" content="Siegstadt Roleplay - Der einzige FiveM Server mit echtem NRW Setting. Deutsche Strassen NRW Polizei und authentisches Roleplay.">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta name="theme-color" content="#050a0a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { -webkit-text-size-adjust: 100%; }
+        button, a { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        
+        :root {
+            --primary: #f50000;
+            --primary-light: #f50000;
+            --primary-dark: #fd000098;
+            --primary-dim: rgba(173, 25, 25, 0.548);
+            --primary-border: rgba(166, 255, 0, 0.603);
+            --primary-glow: rgba(216, 24, 17, 0.548);
+            --accent: #ff0055;
+            --accent-dim: rgba(0, 180, 216, 0.08);
+            --bg: #050a0a;
+            --bg-card: #0a1212;
+            --bg-elevated: #0f1818;
+            --bg-surface: #121e1e;
+            --text: #f0f8f8;
+            --text-secondary: #a0b8b8;
+            --text-muted: #607878;
+            --border: rgba(0, 212, 170, 0.08);
+            --border-hover: rgba(0, 212, 170, 0.15);
+        }
+
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; }
+        ::selection { background: var(--primary); color: var(--bg); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* Loader */
+        .loader { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 32px; transition: opacity 0.8s ease, visibility 0.8s ease; }
+        .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        .loader-content { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+        .loader-logo { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: 8px; color: var(--text); text-transform: uppercase; }
+        .loader-logo span { color: var(--primary); }
+        .loader-bar { width: 160px; height: 1px; background: var(--border); position: relative; overflow: hidden; }
+        .loader-bar::after { content: ''; position: absolute; left: -50%; top: 0; height: 100%; width: 50%; background: linear-gradient(90deg, transparent, var(--primary), transparent); animation: loaderSlide 1.2s ease-in-out infinite; }
+        @keyframes loaderSlide { 0% { left: -50%; } 100% { left: 100%; } }
+
+        /* Nav */
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 48px; height: 72px; display: flex; align-items: center; justify-content: space-between; background: rgba(5, 10, 10, 0.8); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); transition: all 0.3s ease; }
+        nav.scrolled { background: rgba(5, 10, 10, 0.95); border-color: var(--border-hover); }
+        .nav-logo { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 4px; text-decoration: none; color: var(--text); text-transform: uppercase; }
+        .nav-logo span { color: var(--primary); }
+        .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.3s ease; position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1px; background: var(--primary); transition: width 0.3s ease; }
+        .nav-links a:hover { color: var(--text); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta { padding: 10px 24px; background: var(--primary); color: var(--bg) !important; border-radius: 6px; font-size: 11px; font-weight: 600; letter-spacing: 1px; transition: all 0.3s ease; text-decoration: none; }
+        .nav-cta:hover { background: var(--primary-light) !important; transform: translateY(-1px); box-shadow: 0 8px 24px var(--primary-glow); }
+        .nav-cta::after { display: none !important; }
+        .nav-back { padding: 10px 20px; background: transparent; color: var(--text-secondary) !important; border: 1px solid var(--border); border-radius: 6px; font-size: 11px; font-weight: 500; letter-spacing: 1px; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .nav-back:hover { background: var(--bg-card) !important; color: var(--text) !important; border-color: var(--border-hover); }
+        .nav-back::after { display: none !important; }
+        .menu-toggle { display: none; background: none; border: none; cursor: pointer; padding: 4px; z-index: 1001; }
+        .menu-toggle span { display: block; width: 20px; height: 1.5px; background: var(--text); margin: 5px 0; transition: all 0.3s ease; }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        /* Hero */
+        .hero { min-height: 100vh; min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 800px; height: 600px; background: radial-gradient(ellipse at center top, var(--primary-glow) 0%, transparent 70%); pointer-events: none; }
+        .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); -webkit-mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%); opacity: 0.5; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 10px; padding: 10px 24px; background: var(--bg-card); border: 1px solid var(--primary-border); border-radius: 100px; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--primary); margin-bottom: 48px; animation: fadeUp 0.8s ease forwards; opacity: 0; animation-delay: 0.2s; }
+        .hero-badge .dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--primary-glow); } 50% { opacity: 0.7; box-shadow: 0 0 0 8px transparent; } }
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: clamp(48px, 8vw, 100px); font-weight: 700; line-height: 1; letter-spacing: -3px; margin-bottom: 32px; animation: fadeUp 0.8s ease forwards; opacity: 0; animation-delay: 0.4s; }
+        .hero h1 .highlight { background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-sub { font-size: clamp(16px, 2vw, 18px); color: var(--text-secondary); max-width: 560px; line-height: 1.8; margin-bottom: 56px; animation: fadeUp 0.8s ease forwards; opacity: 0; animation-delay: 0.6s; font-weight: 400; }
+        .hero-actions { display: flex; align-items: center; gap: 16px; animation: fadeUp 0.8s ease forwards; opacity: 0; animation-delay: 0.8s; }
+        .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; background: var(--primary); color: var(--bg); border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
+        .btn-primary:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 12px 40px var(--primary-glow); }
+        .btn-secondary { display: inline-flex; align-items: center; gap: 10px; padding: 16px 40px; background: transparent; color: var(--text); border: 1px solid var(--border-hover); border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; text-decoration: none; font-family: 'Inter', sans-serif; letter-spacing: 0.5px; }
+        .btn-secondary:hover { border-color: var(--primary-border); background: var(--primary-dim); color: var(--primary); }
+        .hero-scroll { position: absolute; bottom: 48px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-muted); font-size: 10px; letter-spacing: 3px; text-transform: uppercase; animation: fadeUp 0.8s ease forwards; opacity: 0; animation-delay: 1s; }
+        .scroll-line { width: 1px; height: 48px; background: linear-gradient(to bottom, var(--primary), transparent); }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Section */
+        section { padding: 140px 48px; position: relative; }
+        .section-label { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--primary); margin-bottom: 16px; }
+        .section-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(32px, 4vw, 52px); font-weight: 700; letter-spacing: -1.5px; line-height: 1.1; margin-bottom: 20px; }
+        .section-desc { font-size: 16px; color: var(--text-secondary); max-width: 480px; line-height: 1.8; }
+
+        /* Stats */
+        .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .stat { background: var(--bg); padding: 64px 40px; text-align: center; transition: background 0.3s ease; }
+        .stat:hover { background: var(--bg-card); }
+        .stat-value { font-family: 'Space Grotesk', sans-serif; font-size: clamp(40px, 5vw, 64px); font-weight: 700; letter-spacing: -2px; margin-bottom: 8px; background: linear-gradient(135deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .stat-label { font-size: 12px; color: var(--text-secondary); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+
+        /* Features */
+        .features { max-width: 1200px; margin: 0 auto; }
+        .features-header { margin-bottom: 80px; }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .feature-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .feature-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--primary), transparent); opacity: 0; transition: opacity 0.4s ease; }
+        .feature-card:hover { background: var(--bg-elevated); border-color: var(--primary-border); transform: translateY(-4px); }
+        .feature-card:hover::before { opacity: 1; }
+        .feature-icon { width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; background: var(--primary-dim); border: 1px solid var(--primary-border); border-radius: 14px; margin-bottom: 28px; color: var(--primary); }
+        .feature-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.3px; }
+        .feature-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+        /* Marquee */
+        .showcase { padding: 80px 0; overflow: hidden; background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .marquee-wrapper { position: relative; }
+        .marquee-wrapper::before, .marquee-wrapper::after { content: ''; position: absolute; top: 0; bottom: 0; width: 200px; z-index: 2; pointer-events: none; }
+        .marquee-wrapper::before { left: 0; background: linear-gradient(to right, var(--bg-card), transparent); }
+        .marquee-wrapper::after { right: 0; background: linear-gradient(to left, var(--bg-card), transparent); }
+        .marquee { display: flex; gap: 24px; animation: marquee 40s linear infinite; }
+        .marquee-item { flex-shrink: 0; padding: 12px 28px; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; font-size: 13px; font-weight: 500; color: var(--text-secondary); white-space: nowrap; letter-spacing: 0.5px; transition: all 0.3s ease; }
+        .marquee-item:hover { border-color: var(--primary-border); color: var(--primary); }
+        @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+        /* NRW Section */
+        .NRW { max-width: 1200px; margin: 0 auto; }
+        .NRW-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .NRW-visual { position: relative; aspect-ratio: 1; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border); overflow: hidden; display: flex; align-items: center; justify-content: center; }
+        .NRW-visual::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at center, var(--primary-glow), transparent 70%); }
+        .NRW-map { position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; }
+        .NRW-icon { width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; background: var(--primary-dim); border: 1px solid var(--primary-border); border-radius: 28px; margin-bottom: 32px; color: var(--primary); }
+        .NRW-map-text { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 8px; letter-spacing: -0.5px; }
+        .NRW-map-sub { font-size: 14px; color: var(--text-secondary); }
+        .NRW-content .section-title { margin-bottom: 24px; }
+        .NRW-content .section-desc { margin-bottom: 40px; }
+        .usp-list { list-style: none; display: flex; flex-direction: column; gap: 16px; }
+        .usp-list li { display: flex; align-items: flex-start; gap: 16px; font-size: 15px; color: var(--text-secondary); line-height: 1.6; }
+        .usp-check { flex-shrink: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; background: var(--primary-dim); border: 1px solid var(--primary-border); border-radius: 8px; color: var(--primary); margin-top: 1px; }
+
+        /* Städte */
+        .Städte { background: var(--bg-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .Städte-inner { max-width: 1200px; margin: 0 auto; }
+        .Städte-header { text-align: center; margin-bottom: 64px; }
+        .Städte-header .section-desc { margin: 0 auto; }
+        .Städte-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .Städte-card { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 24px 20px; text-align: center; transition: all 0.3s ease; }
+        .Städte-card:hover { border-color: var(--primary-border); background: var(--bg-elevated); transform: translateY(-2px); }
+        .Städte-card h4 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+        .Städte-card p { font-size: 12px; color: var(--text-muted); }
+
+        /* FAQ */
+        .faq { max-width: 720px; margin: 0 auto; }
+        .faq-header { text-align: center; margin-bottom: 64px; }
+        .faq-header .section-desc { margin: 0 auto; }
+        .faq-list { display: flex; flex-direction: column; gap: 8px; }
+        .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: border-color 0.3s ease; }
+        .faq-item.active { border-color: var(--primary-border); }
+        .faq-question { width: 100%; background: none; border: none; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; cursor: pointer; font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600; color: var(--text); text-align: left; transition: color 0.3s ease; }
+        .faq-question:hover { color: var(--primary); }
+        .faq-icon { flex-shrink: 0; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background: var(--primary-dim); border: 1px solid var(--primary-border); color: var(--primary); transition: transform 0.3s ease; }
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .faq-item.active .faq-answer { max-height: 200px; }
+        .faq-answer-inner { padding: 0 28px 24px; font-size: 14px; color: var(--text-secondary); line-height: 1.8; }
+
+        /* Partner */
+        .partner-section { text-align: center; max-width: 900px; margin: 0 auto; }
+        .partner-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 48px; }
+        .partner-card { display: flex; flex-direction: column; align-items: center; gap: 20px; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px; transition: all 0.3s ease; text-align: center; }
+        .partner-card:hover { border-color: var(--primary-border); background: var(--bg-elevated); }
+        .partner-logo-text { font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; color: var(--text); }
+        .partner-logo-text .hl { color: var(--primary); }
+        .partner-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; max-width: 320px; }
+        .partner-links { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        .partner-link { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 12px; font-weight: 500; transition: all 0.3s ease; }
+        .partner-link:hover { border-color: var(--primary-border); color: var(--primary); background: var(--primary-dim); }
+        .partner-link svg { width: 14px; height: 14px; }
+
+        /* Team */
+        .team { max-width: 900px; margin: 0 auto; }
+        .team-header { text-align: center; margin-bottom: 64px; }
+        .team-header .section-desc { margin: 0 auto; }
+        .team-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .team-role { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; transition: all 0.3s ease; }
+        .team-role:hover { border-color: var(--primary-border); background: var(--bg-elevated); }
+        .team-role-info { display: flex; flex-direction: column; gap: 4px; }
+        .team-role-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; color: var(--text); }
+        .team-role-name { font-size: 13px; color: var(--primary); font-weight: 500; }
+        .team-role-name.vacant { color: var(--text-muted); font-style: italic; }
+        .team-role-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; background: var(--primary-dim); border: 1px solid var(--primary-border); border-radius: 10px; color: var(--primary); flex-shrink: 0; }
+        .team-role-icon.vacant { background: var(--bg-elevated); border-color: var(--border); color: var(--text-muted); }
+
+        /* CTA */
+        .cta-section { text-align: center; max-width: 640px; margin: 0 auto; padding: 160px 24px; }
+        .cta-section .section-title { margin-bottom: 20px; }
+        .cta-section .section-desc { margin: 0 auto 56px; text-align: center; }
+        .cta-buttons { display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .cta-discord { display: inline-flex; align-items: center; gap: 12px; padding: 18px 44px; background: var(--primary); color: var(--bg); border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; text-decoration: none; font-family: 'Inter', sans-serif; }
+        .cta-discord:hover { background: var(--primary-light); transform: translateY(-2px); box-shadow: 0 16px 48px var(--primary-glow); }
+        .cta-discord svg { width: 20px; height: 20px; }
+        .cta-back { display: inline-flex; align-items: center; gap: 10px; padding: 18px 44px; background: transparent; color: var(--text); border: 1px solid var(--border-hover); border-radius: 10px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.3s ease; text-decoration: none; font-family: 'Inter', sans-serif; }
+        .cta-back:hover { border-color: var(--primary-border); background: var(--primary-dim); color: var(--primary); }
+        .cta-subtext { margin-top: 24px; font-size: 12px; color: var(--text-muted); letter-spacing: 1px; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 48px; background: var(--bg-card); }
+        .footer-main { display: flex; align-items: flex-start; justify-content: space-between; gap: 48px; padding-bottom: 32px; border-bottom: 1px solid var(--border); margin-bottom: 32px; }
+        .footer-brand { display: flex; flex-direction: column; gap: 16px; }
+        .footer-logo { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--text-muted); text-transform: uppercase; }
+        .footer-logo span { color: var(--primary); }
+        .footer-tagline { font-size: 13px; color: var(--text-muted); max-width: 280px; line-height: 1.7; }
+        .footer-socials { display: flex; gap: 10px; }
+        .footer-social { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: var(--text-muted); text-decoration: none; transition: all 0.3s ease; }
+        .footer-social:hover { border-color: var(--primary-border); color: var(--primary); background: var(--primary-dim); }
+        .footer-social svg { width: 16px; height: 16px; }
+        .footer-columns { display: flex; gap: 64px; }
+        .footer-col h4 { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--text); margin-bottom: 16px; }
+        .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+        .footer-col a { color: var(--text-muted); text-decoration: none; font-size: 13px; transition: color 0.3s ease; }
+        .footer-col a:hover { color: var(--primary); }
+        .footer-bottom { display: flex; align-items: center; justify-content: space-between; }
+        .footer-copy { font-size: 12px; color: var(--text-muted); }
+        .footer-bottom-links { display: flex; gap: 24px; list-style: none; }
+        .footer-bottom-links a { color: var(--text-muted); text-decoration: none; font-size: 12px; transition: color 0.3s ease; }
+        .footer-bottom-links a:hover { color: var(--primary); }
+
+        /* Reveal */
+        .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+
+        /* Cursor Glow */
+        .cursor-glow { position: fixed; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%); pointer-events: none; z-index: 0; transition: transform 0.2s ease-out, opacity 0.4s ease; transform: translate(-50%, -50%); opacity: 0; }
+        .cursor-glow.active { opacity: 1; }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .NRW-grid { grid-template-columns: 1fr; gap: 48px; }
+            .NRW-visual { aspect-ratio: 16/9; }
+            .Städte-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 20px; height: 64px; }
+            .nav-logo { font-size: 12px; letter-spacing: 3px; }
+            .nav-links { position: fixed; inset: 0; background: rgba(5, 10, 10, 0.98); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); flex-direction: column; justify-content: center; align-items: center; gap: 24px; opacity: 0; visibility: hidden; transition: all 0.4s ease; }
+            .nav-links.open { opacity: 1; visibility: visible; }
+            .nav-links a { font-size: 16px; letter-spacing: 3px; }
+            .nav-cta, .nav-back { width: 200px; justify-content: center; }
+            .menu-toggle { display: block; }
+            .hero { padding: 100px 20px 60px; }
+            .hero::before { height: 400px; }
+            .hero-badge { font-size: 10px; padding: 8px 20px; margin-bottom: 36px; }
+            .hero h1 { font-size: clamp(36px, 12vw, 56px); letter-spacing: -1.5px; margin-bottom: 24px; }
+            .hero-sub { font-size: 15px; line-height: 1.7; margin-bottom: 40px; }
+            .hero-actions { flex-direction: column; width: 100%; gap: 12px; }
+            .btn-primary, .btn-secondary { width: 100%; justify-content: center; padding: 16px 32px; }
+            .hero-scroll { bottom: 24px; }
+            section { padding: 80px 20px; }
+            .section-label { font-size: 10px; letter-spacing: 3px; }
+            .section-title { font-size: clamp(28px, 7vw, 36px); }
+            .section-desc { font-size: 14px; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .stat { padding: 40px 20px; }
+            .stat-value { font-size: clamp(32px, 10vw, 48px); }
+            .stat-label { font-size: 10px; letter-spacing: 1.5px; }
+            .features-header { margin-bottom: 48px; }
+            .features-grid { grid-template-columns: 1fr; gap: 12px; }
+            .feature-card { padding: 28px 24px; }
+            .feature-icon { width: 44px; height: 44px; margin-bottom: 20px; }
+            .feature-card h3 { font-size: 16px; }
+            .feature-card p { font-size: 13px; }
+            .showcase { padding: 48px 0; }
+            .marquee-wrapper::before, .marquee-wrapper::after { width: 60px; }
+            .marquee-item { padding: 10px 20px; font-size: 12px; }
+            .NRW-grid { gap: 32px; }
+            .NRW-visual { aspect-ratio: 4/3; }
+            .NRW { width: 100px; height: 100px; border-radius: 20px; }
+            .NRW-map-text { font-size: 22px; }
+            .NRW-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .NRW-card { padding: 18px 14px; }
+            .NRW-card h4 { font-size: 13px; }
+            .faq-header { margin-bottom: 40px; }
+            .faq-question { padding: 20px; font-size: 14px; }
+            .faq-icon { width: 24px; height: 24px; }
+            .faq-answer-inner { padding: 0 20px 20px; font-size: 13px; }
+            .partner-cards { grid-template-columns: 1fr; gap: 12px; margin-top: 32px; }
+            .partner-card { padding: 28px 24px; }
+            .partner-logo-text { font-size: 20px; }
+            .team-header { margin-bottom: 40px; }
+            .team-grid { grid-template-columns: 1fr; gap: 8px; }
+            .team-role { padding: 20px; }
+            .cta-section { padding: 100px 20px; }
+            .cta-buttons { flex-direction: column; width: 100%; gap: 12px; }
+            .cta-discord, .cta-back { width: 100%; justify-content: center; padding: 16px 32px; }
+            footer { padding: 32px 20px; }
+            .footer-main { flex-direction: column; gap: 32px; }
+            .footer-columns { flex-direction: column; gap: 24px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .cursor-glow { display: none; }
+        }
+
+        @media (max-width: 380px) {
+            .hero h1 { font-size: 32px; }
+            .stat { padding: 32px 16px; }
+            .Städte-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loader" id="loader">
+        <div class="loader-content">
+            <div class="loader-logo"><span>Sieg</span>stadt</div>
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <div class="cursor-glow" id="cursorGlow"></div>
+
+    <nav id="navbar">
+        <a href="/" class="nav-logo"><span>Sieg</span>stadt</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#features" onclick="closeMenu()">Features</a></li>
+            <li><a href="#NRW" onclick="closeMenu()">ZENTRALE</a></li>
+            <li><a href="#Stadte" onclick="closeMenu()">Doxx niggas </a></li>
+            <li><a href="#faq" onclick="closeMenu()">FAQ</a></li>
+            <li><a href="" class="nav-back" onclick="closeMenu()">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                Startseite
+            </a></li>
+            <li><a href="https://discord.gg/ZKYgtGdnDK" target="_blank" rel="noopener noreferrer" class="nav-cta" onclick="closeMenu()">Discord</a></li>
+        </ul>
+        <button class="menu-toggle" id="menuToggle" onclick="toggleMenu()" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Fuck niggas
+        </div>
+        <h1>Doxxing auf der<br><span class="highlight">Zentrale</span></h1>
+        <p class="hero-sub">German server on top .</p>
+        <div class="hero-actions">
+            <a href="https://discord.gg/ZKYgtGdnDK" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                Discord beitreten
+            </a>
+            <a href="#features" class="btn-secondary">
+                Mehr erfahren
+            </a>
+        </div>
+        <div class="hero-scroll">
+            Scroll
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <div class="stats">
+        <div class="stat reveal">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">NRW Feeling</div>
+        </div>
+        <div class="stat reveal reveal-delay-1">
+            <div class="stat-value">Alle</div>
+            <div class="stat-label">Städte in einem</div>
+        </div>
+        <div class="stat reveal reveal-delay-2">
+            <div class="stat-value">24/7</div>
+            <div class="stat-label">Online</div>
+        </div>
+        <div class="stat reveal reveal-delay-3">
+            <div class="stat-value">DE</div>
+            <div class="stat-label">German Setting</div>
+        </div>
+    </div>
+
+  
+
+    <div class="showcase">
+        <div class="marquee-wrapper">
+            <div class="marquee">
+                <div class="marquee-item"> wireshark</div>
+                <div class="marquee-item"> virtuelbox</div>
+                <div class="marquee-item"> nmap      </div>
+                <div class="marquee-item"> Kali linux</div>
+                <div class="marquee-item"> discord canary</div>
+                <div class="marquee-item"> doxbin</div>
+                <div class="marquee-item"> doxxed</div>
+                <div class="marquee-item"> SQLMAP</div>
+                <div class="marquee-item"> John the ripper</div>
+                <div class="marquee-item"> Hydra </div>
+                <div class="marquee-item"> Metasploit </div>
+                <div class="marquee-item"> wireshark</div>
+                <div class="marquee-item"> doxbin </div>
+                <div class="marquee-item"> nmap</div>
+                <div class="marquee-item"> Kali Linux</div>
+                <div class="marquee-item"> SQLMAP</div>
+                <div class="marquee-item"> VIRTUEL BOX</div>
+                <div class="marquee-item"> Metaspoilt</div>
+            </div>
+        </div>
+    </div>
+
+    <section id="NRW">
+        <div class="NRW">
+            <div class="NRW-grid">
+                <div class="NRW-visual reveal">
+                    <div class="NRW-map">
+                        <div class="NRW-icon">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01"/><path d="M9 12v.01"/><path d="M9 15v.01"/><path d="M9 18v.01"/></svg>
+                        </div>
+                        <div class="NRW-map-text">Die doxxing ZENTRALE</div>
+                        <div class="NRW-map-sub"></div>
+                    </div>
+                </div>
+                <div class="berlin-content reveal reveal-delay-2">
+                    <div class="section-label">Der Server</div>
+                    <h2 class="section-title">Willkommen in der <br>DOXXING ZENTRALE</h2>
+                    <p class="section-desc">Macht stress mit uns wir sind larps .</p>
+                    <ul class="usp-list">
+                        <li><span class="usp-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>doxbin</li>
+                        <li><span class="usp-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Metasploit</li>
+                        <li><span class="usp-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Nmap</li>
+                        <li><span class="usp-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>SQLMAP</li>
+                        <li><span class="usp-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Kali linux</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bezirke" id="bezirke">
+        <div class="bezirke-inner">
+            <div class="bezirke-header reveal">
+                <div class="section-label">Alle Gedoxxed leute</div>
+                <h2 class="section-title">Alle Leute ein doxx </h2>
+                <p class="section-desc">Leak so viele leute wie du willst </p>
+            </div>
+            <div class="bezirke-grid">
+                <div class="bezirk-card reveal">
+                    <h4>GL SANI 837428834839691304 </h4>
+                    <p>Wohnt in berlin haselrost </p>
+                </div>
+                <div class="bezirk-card reveal reveal-delay-1">
+                    <h4>MAXXXX 1231650318283178085</h4>
+                    <p>Wohnt in remscheid und ist ein opfer</p>
+                </div>
+                <div class="bezirk-card reveal reveal-delay-2">
+                    <h4>GL AREK = Nigga / ID 908772503965548674 </h4>
+                    <p>Briesen / Frankfurt oder</p>
+                </div>
+                <div class="bezirk-card reveal reveal-delay-3">
+                    <h4>Comming soon</h4>
+                    <p>Comming soon</p>
+                </div>
+                <div class="bezirk-card reveal">
+                    <h4>Comming soon</h4>
+                    <p>Comming soon</p>
+                </div>
+                <div class="bezirk-card reveal reveal-delay-1">
+                    <h4>Comming soon</h4>
+                    <p>Comming soon</p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="faq">
+            <div class="faq-header reveal">
+                <div class="section-label">FAQ</div>
+                <h2 class="section-title">Doxxing zentrale antworten</h2>
+                <p class="section-desc">Fragen.</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item reveal">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Muss man was können ?
+                        <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">Nein muss man nicht aber wäre gut .</div></div>
+                </div>
+    
+                <div class="faq-item reveal reveal-delay-2">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Was macht uns besonders ?
+                        <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">Wir sind die doxxing zentrale und ficken jeden der was machen will  .</div></div>
+                </div>
+                <div class="faq-item reveal reveal-delay-3">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Wie kann ich mich als member bewerben
+                        <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">Trete einfach unserem Discord bei. Dort findest du dann alles was du wissen must.</div></div>
+                </div>
+                <div class="faq-item reveal">
+                    <button class="faq-question" onclick="toggleFaq(this)">
+                        Brauche ich bestimmte TOOls
+                        <span class="faq-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                    </button>
+                    <div class="faq-answer"><div class="faq-answer-inner">Nein, du brauchst nur einen Pc und alles andere erklären wir dir </div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <section id="team">
+        <div class="team">
+            <div class="team-header reveal">
+                <div class="section-label">OWNER</div>
+                <h2 class="section-title">Die Mitgleider</h2>
+                <p class="section-desc">Unsere Member sorgen stets dafür das hier was lernt und sicher seit </p>
+            </div>
+            <div class="team-grid">
+                <div class="team-role reveal">
+                    <div class="team-role-info">
+                        <div class="team-role-title">Owner</div>
+                        <div class="team-role-name">NWØ ✘ | deadsec  ¹⁴</div>
+                    </div>
+                    <div class="team-role-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                </div>
+                <div class="team-role reveal reveal-delay-1">
+                    <div class="team-role-info">
+                        <div class="team-role-title">Owner</div>
+                        <div class="team-role-name">𝖊𝖓𝖈𝖗𝖞𝖕𝖙𝖊𝖉</div>
+                    </div>
+                    <div class="team-role-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    </div>
+                </div>
+                <div class="team-role reveal reveal-delay-2">
+                    <div class="team-role-info">
+                        <div class="team-role-title">Rank 1 doxxer</div>
+                        <div class="team-role-name vacant">Noch nicht vergeben</div>
+                    </div>
+                    <div class="team-role-icon vacant">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                </div>
+                <div class="team-role reveal reveal-delay-3">
+                    <div class="team-role-info">
+                        <div class="team-role-title">Rank 1 doxxer</div>
+                        <div class="team-role-name vacant">Noch nicht vergeben</div>
+                    </div>
+                    <div class="team-role-icon vacant">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="reveal">
+            <div class="section-label">Werde Teil von der doxxing zentrale und lerne das doxxen und hacken </div>
+            <h2 class="section-title">Bereit für Spaß?</h2>
+            <p class="section-desc">Tritt unserer Community bei und lerne wie es wirklich ist.</p>
+            <div class="cta-buttons">
+                <a href="https://discord.gg/ZKYgtGdnDK" target="_blank" rel="noopener noreferrer" class="cta-discord">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    Discord beitreten
+                </a>
+                <a href="main.html" class="cta-back">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    Zur Startseite
+                </a>
+            </div>
+            <p class="cta-subtext">Kostenlos beitreten</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-main">
+            <div class="footer-brand">
+                <div class="footer-logo"><span>Doxxing</span>ZENTRALE</div>
+                <p class="footer-tagline">Hier kannst von basic bis zu richtigen pantesting lernen  </p>
+                <div class="footer-socials">
+                    <a href="https://discord.gg/ZKYgtGdnDK" target="_blank" rel="noopener noreferrer" class="footer-social" title="Discord">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    </a>
+                </div>
+            </div>
+            <div class="footer-columns">
+                <div class="footer-col">
+                    <h4>Navigation</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#Zentrale">zentrale</a></li>
+                        <li><a href="#Nigga got doxxed">Nigga got doxxed</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="https://discord.gg/ZKYgtGdnDK" target="_blank" rel="noopener noreferrer">Discord</a></li>
+                        <li><a href="main.html">Startseite</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">2026 Doxxing ZENTRALE ein ort zum chillen</p>
+            <ul class="footer-bottom-links">
+                <li><a href="#">Made by DEADSEC</a></li>
+                <li><a href="#">Datenschutz</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // Loader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
+        });
+
+        // Nav scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile menu
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+            document.getElementById('menuToggle').classList.toggle('active');
+        }
+        function closeMenu() {
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('menuToggle').classList.remove('active');
+        }
+
+        // FAQ
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!wasActive) item.classList.add('active');
+        }
+
+        // Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
+
+        // Cursor glow
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            cursorGlow.style.left = mouseX + 'px';
+            cursorGlow.style.top = mouseY + 'px';
+            cursorGlow.classList.add('active');
+        });
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.classList.remove('active');
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
